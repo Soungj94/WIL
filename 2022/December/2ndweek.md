@@ -1,9 +1,13 @@
-life cycle
-리액트는 컴포넌트 기반의 View를 중심으로 한 라이브러리이다. 그러다보니 각각의 컴포넌트에는 라이프사이클 즉, 컴포넌트의 수명 주기가 존재한다. 컴포넌트의 수명은 보통 페이지에서 렌더링되기 전인 준비 과정에서 시작하여 페이지에서 사라질 때 끝이난다.
-picture
+# life cycle
 
-라이프사이클의 분류
-1.1. Class Componet 생명주기
+- 리액트는 컴포넌트 기반의 View를 중심으로 한 라이브러리이다. 그러다보니 각각의 컴포넌트에는 라이프사이클 즉, 컴포넌트의 수명 주기가 존재한다. 컴포넌트의 수명은 보통 페이지에서 렌더링되기 전인 준비 과정에서 시작하여 페이지에서 사라질 때 끝이난다.
+
+![picture](https://cdn.discordapp.com/attachments/1046343861129191446/1047851133416251472/Screenshot_2022-12-01_at_9.25.06_PM.png)
+
+###라이프사이클의 분류
+
+## 1.1. Class Componet 생명주기
+
 👀 마운트(mount)
 컴포넌트가 생성 될때 발생하는 생명주기들을 알아봅시다.
 
@@ -22,9 +26,12 @@ props로부터 파생된 state를 가져옵니다. 즉 props로 받아온 것을
 이 메서드가 호출되는 시점에는 화면에 컴포넌트가 나타난 상태입니다.
 여기서는 주로 DOM을 사용해야 하는 외부 라이브러리 연동, 해당 컴포넌트에서 필요로하는 데이터를 ajax로 요청, 등의 행위를 합니다.
 
+```
 useEffect(()=>{
 	console.log("componentDidMount");
 },[])
+```
+
 👀 업데이트(updating)
 컴포넌트가 업데이트되는 시점에 어떤 생명주기 메서드들이 호출되는지 알아봅니다.
 
@@ -40,9 +47,12 @@ React.memo와 유사함, boolean 반환으로 결정
 
 의존성 배열이 변할때만 useEffect가 실행하는 것과 같음
 
+```
 useEffect(() => {
 	console.log("count or exampleProp changed");
 },[count, exampleProp]);
+```
+
 👀 언마운트(unmount)
 언마운트라는 것은 컴포넌트가 화면에서 사라지는 것을 의미합니다. 언마운트에 관련된 생명주기 메서드는 componentWillUnmount 하나입니다.
 
@@ -51,11 +61,15 @@ useEffect(() => {
 여기서 주로 DOM에 직접 등록했었던 이벤트를 제거하고, 만약에 setTimeout을 걸은 것이 있다면 clearTimeout을 통하여 제거를 합니다.
 추가적으로, 외부 라이브러리를 사용한게 있고 해당 라이브러리에 dispose기능이 있다면 여기서 호출해주시면 됩니다.
 
+```
 useEffect(()=>{
 	console.log("");
     return(() => exampleAPI.unsubscribe());
 })
-1.2. Functional Componet 생명주기
+```
+
+## 1.2. Functional Component 생명주기
+
 리액트에서 Hook은 함수형 컴포넌트에서 React state와 생명주기 기능을 연동 할 수 있게 해주는 함수입니다.
 Hook은 class 안에서는 동작하지 않고, class없이 React를 사용할 수 있게 합니다.
 
@@ -78,17 +92,23 @@ Hook은 class 안에서는 동작하지 않고, class없이 React를 사용할 �
 👀 Hook의 종류와 정리
 ☑️ useState
 
+```
 상태를 관리합니다. [state이름, setter이름] 순으로 반환 받아서 사용합니다.
 
 const [state, setState] = useState(initialState);
+```
+
 ☑️ useEffect
 화면에 렌더링이 완료된 후에 수행되며componentDidMount와 componentDidUpdate, componentWillUnmount가 합쳐진 것
 
 ❗️만약 화면을 다 그리기 이전에 동기화 되어야 하는 경우에는,useLayoutEffect를 활용하여 컴포넌트 렌더링 - useLayoutEffect 실행 - 화면 업데이트 순으로 effect를 실행시킬 수 있다.
 
+```
 useEffect(() => {}); // 렌더링 결과가 실제 돔에 반영된 후마다 호출
 useEffect(() => {}, []); // 컴포넌트가 처음 나타날때 한 번 호출
 useEffect(() => {}, [의존성1, 의존성2, ..]); // 조건부 effect 발생, 의존성 중 하나가 변경된다면 effect는 항상 재생성됩니다.
+```
+
 useEffect안에서의 return은 정리 함수(clean-up)를 사용하기위해 쓰여집니다.
 
 메모리 누수 방지를 위해 UI에서 컴포넌트를 제거하기 전에 수행
@@ -98,7 +118,10 @@ useEffect안에서의 return은 정리 함수(clean-up)를 사용하기위해 �
 ☑️ useContext
 Context API를 통해 만들어진 Context에서 제공하는 Value를 가져올 수 있다
 
+```
 const value = useContext(MyContext);
+```
+
 컴포넌트에서 가장 가까운 <MyContext.Provider>가 갱신되면 이 Hook은 그 MyContext provider에게 전달된 가장 최신의 context value를 사용하여 렌더러를 트리거 합니다.
 
 ☑️ useReducer
@@ -106,23 +129,68 @@ useState의 대체 함수로 컴포넌트 상태 업데이트 로직을 컴포�
 컴포넌트 바깥에 로직을 작성할 수 도 있고, 심지어 다른 파일에 작성한 후 불러와서 사용할 수도 있습니다.
 reducer란 현재 상태와 액션 객체를 파라미터로 받아와서 새로운 상태를 반환해주는 함수 입니다.
 
+```
 const [state, dispatch] = useReducer(reducer, initialArg, init);
+```
+
 ☑️ useRef
 특정 DOM 선택할때 주로 쓰이며 .current 프로퍼티로 전달된 인자로 초기화된 변경 가능한 ref 객체를 반환합니다. 반환된 객체는 컴포넌트의 전 생애주기를 통해 유지됩니다.
 
+```
 const refContainer = useRef(null);
+```
+
 ☑️ useMemo
 메모이제이션된 값을 반환합니다. 이미 연산 된 값을 리렌더링 시 다시 계산하지 않도록 한다. 의존성이 변경되었을 때에만 메모이제이션된 값만 다시 계산 합니다. 의존성 배열이 없는 경우 매 렌더링 때마다 새 값을 계산합니다.
 
+```
 const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+
 ☑️ useCallback
 메모이제이션 된 콜백을 반환합니다. useMemo와 유사하게 이용되며 '함수'에 적용해줍니다.
 의존성이 변경되었을때만 변경됩니다. 때문에 특정 함수를 새로 만들지 않고 재사용가능하게 합니다.
 
+```
 const memoizedCallback = useCallback(
   () => {
     doSomething(a, b);
   },
   [a, b],
 );
+```
 
+#### Done
+
+- 라우터 돔을 써서 여러페이지를 만들어, 리덕스를 사용해서 todo list 를 만들어 볼 계획! x
+- 머리속으로 어떻게 리덕스 혹은 라우터 돔이 돌아가는지 완벽구현 상태를 만들것이며 x
+- 일찍 끝난다면, CRUD를 반복해서 10번씩 쓸 수 있는 연습을 할 것이며,
+- callback promise aysnc await 객체를 만들어주는
+- http
+- 비동기통신, 동기와 비동기
+- team assignment
+- Optional chaining
+
+#### 오늘 볼 거
+
+별코딩 hooks 공부하기
+
+- rest api
+- axios 비동기처리에 있어서 어떻게 녹여낼 수 있는지
+- 불변성유지
+- immer 불변성 관련
+- thunk
+- devtools
+
+  ** 매일할 것 ** -오후 1시까지
+
+- 혼공스를 읽을것이며 매일 2챕터 씩 하기 (x)
+- es6 문법을 반복학습 및 드림앨리에 나오는 기본요소 다시 훑어보기
+- 그외 공부 할 것 들 공부하기
+
+** 장기적으로 **
+
+- udemy 강의를 볼 것
+- 노마드코더 리덕스 강의
+- html tag 의 규격들을 살펴볼 수 있는 틀을 만들고
+- utilicss를 미리 만들어 나중에도 쓸 수 있는 함수를 구현시키고
