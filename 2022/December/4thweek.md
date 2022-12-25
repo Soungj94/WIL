@@ -13,5 +13,5 @@ there are couple of things I want to mention interms of our first collab.
 2. API is the number one important aspect in collaboration, and frankly speaking, I wasnt able to get a grip.
 3. tokens and cookies are must known knowledge when we are dealing with conditional processing.
 4. even if I try to accomplish something myself, it's just impossible because they are the one who will be checking my request for anything.
-5. I need to know how to check my work rather it's right or wrong before I ask anything about fixing their work.
+5. I need to know how to check my work; rather it's right or wrong, before I ask anything about fixing their work.
 6. to get a better understanding of what they are doing, and bring up my productivity; it's inevitable to learn and practice the node.js.
